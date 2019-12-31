@@ -36,6 +36,6 @@
         </head>
         <body>
             <h2>&ldquo;<?php echo $quoteText; ?>&rdquo;</h2>
-            <strong>- &ldquo;<?php echo $quoteAuthor; ?>&rdquo;</strong>
+            <strong>- &ldo;<?php echo $quoteAuthor; ?>&rdquo;</strong>
         </body>
     </html>

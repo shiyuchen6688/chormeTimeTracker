@@ -4,9 +4,13 @@
 error_reporting(E_ALL); // need to have this on every single page
 include "db/connect.php";
 
+// NEW CHAPTER
+echo "REQUEST DATA FROM DATA BASE";
+echo "<br>";echo "<br>";
+
 // A query is a request for information from a database
 // put your table name here, not data base name
-// check if you query is success
+// check if you query is success, else clause will run if query has error
 if ($result = $db->query("SELECT * FROM people")) { //or die($db->error);
     // check if you got a certain amount of data
     if ($result->num_rows) {
@@ -45,4 +49,53 @@ if ($result = $db->query("SELECT * FROM people")) { //or die($db->error);
 }
 
 
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// NEW CHAPTER
+echo "UPDATING AND DELETING";
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// update
+if ($update = $db->query("UPDATE people SET last_name = 'Wang' WHERE id = 1")) {
+    // // we cannot do this because we are not returning any data
+    // echo $update->num_rows
+
+    // but you can print number of rows affected by the last query
+    echo $db->affected_rows;
+}
+
+// delete
+if ($delete = $db->query("DELETE FROM people WHERE id = 1")) {
+
+    echo $db->affected_rows;
+}
+
+
+
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// NEW CHAPTER
+echo "INSERTING";
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+
+if ($insert = $db->query("INSERT INTO people (first_name, last_name, bio, created) VALUES ('Shiyu', 'Chen', 'I\'m a second yr CS student', now())")) {
+    // echo number of row you inserted
+    echo $db->affected_rows;
+} 
+
+// // if data come from other places (ex: user), an untrusted source, always escape before putting it into your data base
+// if (isset($_GET['first_name'])) {
+//     // escape any data that we do not want
+//     $first_name = $db->real_escape_string(trim($_GET['first_name']));
+// }
+
+
+
+
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// NEW CHAPTER
+echo "BINDING";
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 ?>
