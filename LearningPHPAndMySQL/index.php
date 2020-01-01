@@ -5,7 +5,7 @@ error_reporting(E_ALL); // need to have this on every single page
 include "db/connect.php";
 
 // NEW CHAPTER
-echo "REQUEST DATA FROM DATA BASE";
+echo "<h2>REQUEST DATA FROM DATA BASE</h2>";
 echo "<br>";echo "<br>";
 
 // A query is a request for information from a database
@@ -21,7 +21,7 @@ if ($result = $db->query("SELECT * FROM people")) { //or die($db->error);
 
         //  // fetch all of the rows
         // $allRows = $result->fetch_all(MYSQLI_ASSOC); // pass MYSQLI_NUM none associative array, want assoc array use MYSQLI_ASSOC, rarely MYSQLI_BOTH
-        // echo '<pre>', print_r($allRows), '</pre>'; // pre formatted tabs will give you bettwe view of the result
+        // echo '<pre>', print_r($allRows), '</pre>'; // pre formatted tabs will give you better view of the result
 
 
         // // print name of each people(row)
@@ -52,7 +52,7 @@ if ($result = $db->query("SELECT * FROM people")) { //or die($db->error);
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 // NEW CHAPTER
-echo "UPDATING AND DELETING";
+echo "<h2>UPDATING AND DELETING</h2>";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 // update
@@ -75,7 +75,7 @@ if ($delete = $db->query("DELETE FROM people WHERE id = 1")) {
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 // NEW CHAPTER
-echo "INSERTING";
+echo "<h2>INSERTING</h2>";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 
@@ -96,7 +96,7 @@ echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 // NEW CHAPTER
-echo "BINDING";
+echo "<h2>BINDING</h2>";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 if(isset($_GET['first_name'])) {
@@ -125,6 +125,17 @@ if(isset($_GET['first_name'])) {
     
 
 }
+
+
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// Example One
+echo "<h2>Example1 Information Display</h2>";
+echo "<br>";echo "<br>";
+
+echo "<a href='info_display.php'>Information display</a>";
+
+
 
 
 
