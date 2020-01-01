@@ -4,6 +4,25 @@ include "db/connect.php";
 include "security.php";
 $records = array();
 
+// getting user input from url
+if(!empty($_POST)) {
+    if(isset($_POST['first_name'], $_POST['last_name'], $_POST['bio'])) {
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        $bio = trim($_POST['bio']);
+
+        if(!empty($first_name) && !empty($last_name) && !empty($bio)) {
+            $insert = $db->prepare("INSERT INTO people (first_name, last_name, bio,  created) VALUES (?, ?, ?, NOW())");
+            $insert->bind_param('sss', $first_name, $last_name, $bio);
+
+            if($insert->execute()) {
+                header("Location: info_display.php");
+                die();
+            }
+        }
+    }
+}
+
 if ($results = $db->query("SELECT * FROM people")) {
     if ($results->num_rows) {
         while ($row = $results->fetch_object()) {
@@ -65,9 +84,19 @@ if ($results = $db->query("SELECT * FROM people")) {
 
     <form action="" method="POST">
         <div class="field">
+            <!-- if you match input id with label name, when you click the label, input will be highlighted -->
             <label for="first_name">First Name</label>
             <input type="text" name="first_name" id="first_name">
         </div>
+        <div class="field">
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" id="last_name">
+        </div>
+        <div class="field">
+            <label for="bio">Bio</label>
+            <textarea name="bio" id="bio"></textarea>
+        </div>
+        <button type="submit" value="Insert">Insert</button>
     </form>
 
 
