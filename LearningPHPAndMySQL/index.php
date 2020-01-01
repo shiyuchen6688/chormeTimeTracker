@@ -79,10 +79,10 @@ echo "INSERTING";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
 
-if ($insert = $db->query("INSERT INTO people (first_name, last_name, bio, created) VALUES ('Shiyu', 'Chen', 'I\'m a second yr CS student', now())")) {
-    // echo number of row you inserted
-    echo $db->affected_rows;
-} 
+// if ($insert = $db->query("INSERT INTO people (first_name, last_name, bio, created) VALUES ('Shiyu', 'Chen', 'I\'m a second yr CS student', now())")) {
+//     // echo number of row you inserted
+//     echo $db->affected_rows;
+// } 
 
 // // if data come from other places (ex: user), an untrusted source, always escape before putting it into your data base
 // if (isset($_GET['first_name'])) {
@@ -98,4 +98,34 @@ echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 // NEW CHAPTER
 echo "BINDING";
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+if(isset($_GET['first_name'])) {
+    $first_name = trim($_GET['first_name']);
+
+    // prepare is different from query, do not execute untill we use the execute method
+    // "?" are values that are left unspecified, which we can provide actual value later
+    // Condition after WHERE can use AND/OR to append other condition
+    $people = $db->prepare("SELECT first_name, last_name FROM people WHERE first_name = ?");
+
+    // we prepared a stateent, and now we will bind parameters with that statement
+    // 's' means type is string, 'si' if a string and an integer
+    $people->bind_param('s', $first_name);
+
+    // execute the statement after binding parameters
+    $people->execute();
+
+    // bind the value returned to out variables (name can be different)
+    $people->bind_result($first_name, $last_name); 
+
+    // keep fetching next row of result, untill null
+    while($people->fetch()) {
+        echo $first_name, ' ', $last_name, '<br>';
+    }
+
+    
+
+}
+
+
+
 ?>
