@@ -126,6 +126,19 @@ if(isset($_GET['first_name'])) {
 
 }
 
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+// NEW CHAPTER
+echo "<h2>Joins</h2>";
+echo "<br>";echo "<br>";echo "<br>";echo "<br>";
+
+echo "Commented";
+// Resource1: https://www.techonthenet.com/sql_server/joins.php
+
+// "SELECT people.first_name, countries.name as country 
+// FROM people
+// LEFT JOIN countries ON people.country = countries.id";
+
 
 echo "<br>";echo "<br>";echo "<br>";echo "<br>";
 
