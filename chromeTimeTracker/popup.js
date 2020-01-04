@@ -161,10 +161,27 @@ updateBtn.onclick  = function() {
 
 // send data to data base
 function post() {
+    // create XMLHttpRequest Object
+    let xhttp = new XMLHttpRequest();
+    // variables we nned to send
+    let url = "website/record.php";
     let hour = document.getElementById("hourList").value;
     let min = document.getElementById("min").value;
     let name = document.getElementById("newTaskName").value;
-    alert(hour + " " + min + " " + name);
+    let vars = "?hour=" + hour + "&min=" + min + "newTaskName=" + name;
+    xhttp.open("POST", url, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    // get response and do something with it
+    xhttp.onreadystatechange = function() {
+        if(xhttp.readyState == 4 && xhttp.status == 200) {
+            var return_data = xhttp.responseText;
+            document.getElementById("status").innerHTML = return_data;
+            alert(return_data);
+        }
+    }
+    // send data to php and wait for response to update status div
+    xhttp.send(vars);
+    document.getElementById("status").innerHTML = "waiting...";
 }
 
 

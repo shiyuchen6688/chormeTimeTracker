@@ -1,6 +1,6 @@
 <?php
-include "db/connect.php";
-include "security/security.php";
+include "../db/connect.php";
+include "../security/security.php";
 
 if (!empty($_POST)) {
     // echo "not empty";

@@ -1,6 +1,6 @@
 <?php
-include "db/connect.php";
-include "security/security.php";
+include "../db/connect.php";
+include "../security/security.php";
 
 if (!empty($_POST)) {
     if (isset($_POST['userName']) && isset($_POST['passWord'])) {
