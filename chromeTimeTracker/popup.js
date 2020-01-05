@@ -7,7 +7,7 @@ initTables();
 
 function initName() {
     // send a message to background to get prev name if there is one
-    chrome.runtime.sendMessage({purpose:"getName"}, getNameFromBkgScript);
+    chrome.runtime.sendMessage({ purpose: "getName" }, getNameFromBkgScript);
 }
 
 function getNameFromBkgScript(response) {
@@ -16,37 +16,37 @@ function getNameFromBkgScript(response) {
 }
 
 function setInitialValues() {
-    for (k  = 0; k < 12; k++) {
+    for (k = 0; k < 12; k++) {
         // j is 4th position of element id 
         for (j = 0; j < 4; j++) {
             // console.log(getIndex("AM", k,  j));
-            document.getElementById(k+ "AM" + j).innerHTML = prevTasks[getIndex("AM", k,  j)];
+            document.getElementById(k + "AM" + j).innerHTML = prevTasks[getIndex("AM", k, j)];
         }
     }
 
-    for (k  = 1; k < 13; k++) {
-            // j is 4th position of element id 
-            for (j = 0; j < 4; j++) {
-                // console.log(getIndex("PM", k,  j));
-                document.getElementById(k+ "PM"+ j).innerHTML = prevTasks[getIndex("PM", k,  j)];
-            }
+    for (k = 1; k < 13; k++) {
+        // j is 4th position of element id 
+        for (j = 0; j < 4; j++) {
+            // console.log(getIndex("PM", k,  j));
+            document.getElementById(k + "PM" + j).innerHTML = prevTasks[getIndex("PM", k, j)];
         }
+    }
 }
 
 function getIndex(AMorPM, hour, min) {
     if (AMorPM == "AM") {
-        if(hour == 0) {
+        if (hour == 0) {
             return min;
         } else {
-            return ((hour  * 4) - 1)  + min;
+            return ((hour * 4) - 1) + min;
         }
 
     } else if (AMorPM == "PM") {
         if (hour == 12) {
-            return ((hour  * 4) - 1)  + min;
-        }  else {
+            return ((hour * 4) - 1) + min;
+        } else {
             hour = hour + 12;
-            return ((hour  * 4) - 1)  + min;
+            return ((hour * 4) - 1) + min;
         }
     }
 }
@@ -54,35 +54,35 @@ function getIndex(AMorPM, hour, min) {
 
 function initValues() {
     prevTasks = ["-"];
-    for (i=0; i < 95; i++) {
+    for (i = 0; i < 95; i++) {
         prevTasks.push("-");
     }
-} 
+}
 
 function getTasksFromBkgrdScript(response) {
     console.log("history recieved");
     console.log(response.history);
-    prevTasks  = response.history;
+    prevTasks = response.history;
     setInitialValues();
 }
 
 function initTables() {
     // send a message to background and get history here
-    chrome.runtime.sendMessage({purpose: "getHistory"}, getTasksFromBkgrdScript);
+    chrome.runtime.sendMessage({ purpose: "getHistory" }, getTasksFromBkgrdScript);
 }
 
 
 // happen when login button is clicked
 var loginBtn = document.getElementById("login");
 
-loginBtn.onclick = function() {
+loginBtn.onclick = function () {
     handleLoginButton();
 }
 
 function handleLoginButton() {
     console.log("handleLoginButton is called");
     let loginURL = "http://localhost:8080/chromeTimeTracker/login.php";
-    chrome.tabs.create({url:loginURL});
+    chrome.tabs.create({ url: loginURL });
     // chrome.browserAction.setPopup({
     //     popup :"test.html"
     // });
@@ -92,14 +92,14 @@ function handleLoginButton() {
 // happen when signup button is clicked
 var loginBtn = document.getElementById("signup");
 
-loginBtn.onclick = function() {
+loginBtn.onclick = function () {
     handleSignupButton();
 }
 
 function handleSignupButton() {
     console.log("handleSignupButton is called");
     let loginURL = "http://localhost:8080/chromeTimeTracker/signup.php";
-    chrome.tabs.create({url:loginURL});
+    chrome.tabs.create({ url: loginURL });
     // chrome.browserAction.setPopup({
     //     popup :"test.html"
     // });
@@ -113,7 +113,7 @@ function handleSignupButton() {
 // happen when name button is clicked
 var nameBtn = document.getElementById("nameBtn");
 
-nameBtn.onclick = function() {
+nameBtn.onclick = function () {
     newName();
 };
 
@@ -127,18 +127,18 @@ function newName() {
 
     chrome.tabs.query(params, gotTab);
     function gotTab(tabs) {
-        
-        
-    let msg = {
-        txt: message
-    }
+
+
+        let msg = {
+            txt: message
+        }
         console.log("messabe sended");
         chrome.tabs.sendMessage(tabs[0].id, msg);
     }
     console.log("new text is working"); // for dubug
 
     // send a message to background script to remember   
-    chrome.runtime.sendMessage({purpose:"newName", name: message}, function () {});
+    chrome.runtime.sendMessage({ purpose: "newName", name: message }, function () { });
 
     // change current greeting
     greet(message);
@@ -152,41 +152,57 @@ function greet(message) {
 
 
 // happen when update buttonis clicked
-var updateBtn  = document.getElementById("updateButton");
+var updateBtn = document.getElementById("updateButton");
 
-updateBtn.onclick  = function() {
+updateBtn.onclick = function () {
     updateTable();
+    // noticeBkgForPost();
     post();
 }
 
 // send data to data base
+function noticeBkgForPost() {
+    let hour = document.getElementById("hourList").value;
+    let min = document.getElementById("min").value;
+    let name = document.getElementById("newTaskName").value;
+    let msg = {
+        purpose: "post",
+        hour: hour,
+        min: min,
+        name: name
+    }
+
+    console.log("message sended");
+    chrome.runtime.sendMessage(msg, function (response) {
+        console.log(response);
+    })
+}
+
 function post() {
     // create XMLHttpRequest Object
     let xhttp = new XMLHttpRequest();
     // variables we nned to send
-    let url = "website/record.php";
+    let url = "http://localhost:8080/chromeTimeTracker/website/record.php";
+
     let hour = document.getElementById("hourList").value;
     let min = document.getElementById("min").value;
     let name = document.getElementById("newTaskName").value;
-    let vars = "?hour=" + hour + "&min=" + min + "newTaskName=" + name;
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    let vars = "?hour=" + hour + "&min=" + min + "&newTaskName=" + name;
+    xhttp.open("GET", url + vars, true);
+    console.log("xhttp opended");
+    console.log(url + vars);
     // get response and do something with it
-    xhttp.onreadystatechange = function() {
-        if(xhttp.readyState == 4 && xhttp.status == 200) {
+    xhttp.onreadystatechange = function () {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
             var return_data = xhttp.responseText;
-            document.getElementById("status").innerHTML = return_data;
-            alert(return_data);
+            console.log(return_data);
+            document.getElementById('status').innerHTML = "Task Succesfully Saved.";
         }
     }
-    // send data to php and wait for response to update status div
+    // send data to php and wait for response to update status div 
     xhttp.send(vars);
-    document.getElementById("status").innerHTML = "waiting...";
+        document.getElementById('status').innerHTML = "waiting...";
 }
-
-
-
-
 
 
 
@@ -207,7 +223,7 @@ function updateTable() {
     let minFromFormList = document.getElementsByName("min");
     let hourID = formHourToID(hourFromForm);
     let minID = formMinToID(minFromFormList);
-    let matchingTDId= hourID + minID;
+    let matchingTDId = hourID + minID;
 
     document.getElementById(matchingTDId).innerHTML = taskValue;
 
@@ -220,7 +236,7 @@ function formHourToID(hourFromForm) {
 }
 
 function formMinToID(minFromFormList) {
-    if(minFromFormList[0].checked) {
+    if (minFromFormList[0].checked) {
         return 0;
     } else if (minFromFormList[1].checked) {
         return 1;
@@ -256,7 +272,7 @@ function getArrayIndex(hourID, minID) {
         hour = parseInt(hourID.substring(0, 1));
     }
     min = parseInt(minID);
-   
+
     // get index
     let index = getIndex(AMorPM, hour, min);
     console.log("AMorPM: " + AMorPM + " hour: " + hour + " min: " + min + " index: " + index);
@@ -272,6 +288,6 @@ function sendTaskValue(taskValue, index) {
         task: taskValue,
         index: index
     }
-    chrome.runtime.sendMessage(msg, function() { console.log("task value already sended to background script");});
+    chrome.runtime.sendMessage(msg, function () { console.log("task value already sended to background script"); });
 }
 
