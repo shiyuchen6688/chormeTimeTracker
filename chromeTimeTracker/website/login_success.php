@@ -5,5 +5,5 @@ include "../db/connect.php";
 include "../security/security.php";
 include "../session/session_start.php";
 echo "You are in!";
-echo '<pre>',  print_r($_SESSION['user']), '</pre>';
+echo '<pre>',  print_r($_SESSION['curr_user']), '</pre>';
 ?>

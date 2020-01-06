@@ -20,7 +20,7 @@ if (!empty($_POST)) {
                     if ($row->password == $password) {
                         // if correct password
                         echo "success";
-                        $_SESSION['user'] = $row;
+                        $_SESSION['curr_user'] = $row;
                         header("Location: login_success.php");
                         break;
                     } else {

@@ -2,6 +2,7 @@
 <?php
 include "../db/connect.php";
 include "../security/security.php";
+include "../session/session_start.php";
 
 echo "Hello";
 // $test = "test2";

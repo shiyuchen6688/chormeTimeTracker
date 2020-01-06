@@ -1,6 +1,7 @@
 <?php
 include "../db/connect.php";
 include "../security/security.php";
+include "../session/session_start.php";
 
 if (!empty($_POST)) {
     if (isset($_POST['userName']) && isset($_POST['passWord'])) {
@@ -14,14 +15,27 @@ if (!empty($_POST)) {
 
             if ($insert->execute()) {
                 echo "success";
-                // $get = $db->prepare("INSERT * FROM users WHERE user_name = ?");
-                // $get->bind_param('s', $user_name);
-                // $result = $get->execute();
-                // $_SESSION['user'] = $result->fetch_object();
-                // $get->close();
+                $insert->close();
+                $get = $db->prepare("SELECT user_id, user_name, password, bio, created_date FROM users WHERE user_name = ? AND password = ?");
+                echo $db->error;
+                $get->bind_param('ss', $user_name,$password);
+                $get->execute();
+                $get->bind_result($user_id, $user_name, $password, $bio, $created_data);
+                $get->fetch();
+                $assArr = array(
+                    "user_id" => $user_id,
+                    "user_name" => $user_name,
+                    "password" => $password,
+                    "bio" => $bio,
+                    "created_date" => $created_data,
+                );
+                // echo '<pre>', print_r($assArr), '</pre>';
+                $_SESSION['curr_user'] = (object) $assArr;
+                $get->close();
                 header("Location: login_success.php");
             } else {
                 echo "fail";
+                echo $db->error;
                 header("Location: signnup.php");
             }
         } else {
