@@ -72,38 +72,6 @@ function initTables() {
 }
 
 
-// happen when login button is clicked
-var loginBtn = document.getElementById("login");
-
-loginBtn.onclick = function () {
-    handleLoginButton();
-}
-
-function handleLoginButton() {
-    console.log("handleLoginButton is called");
-    let loginURL = "http://localhost:8080/chromeTimeTracker/login.php";
-    chrome.tabs.create({ url: loginURL });
-    // chrome.browserAction.setPopup({
-    //     popup :"test.html"
-    // });
-}
-
-
-// happen when signup button is clicked
-var loginBtn = document.getElementById("signup");
-
-loginBtn.onclick = function () {
-    handleSignupButton();
-}
-
-function handleSignupButton() {
-    console.log("handleSignupButton is called");
-    let loginURL = "http://localhost:8080/chromeTimeTracker/signup.php";
-    chrome.tabs.create({ url: loginURL });
-    // chrome.browserAction.setPopup({
-    //     popup :"test.html"
-    // });
-}
 
 
 
@@ -291,3 +259,39 @@ function sendTaskValue(taskValue, index) {
     chrome.runtime.sendMessage(msg, function () { console.log("task value already sended to background script"); });
 }
 
+// // happen when login button is clicked
+// var loginBtn = document.getElementById("login");
+
+// loginBtn.onclick = function () {
+//     handleLoginButton();
+// }
+
+// function handleLoginButton() {
+//     console.log("handleLoginButton is called");
+//     let loginURL = "http://localhost:8080/chromeTimeTracker/login.php";
+//     chrome.tabs.create({ url: loginURL });
+//     // chrome.browserAction.setPopup({
+//     //     popup :"test.html"
+//     // });
+// }
+
+// this function will only execute once the signin button is clicked
+document.getElementById('signupBtn').onclick = function() {
+    handleSignupButton();
+}
+
+function handleSignupButton() {
+    let signupURL = "http://localhost:8080/chromeTimeTracker/website/signup.php";
+    chrome.tabs.create({ url: signupURL });
+}
+
+
+// this function will only execute once the seeMore button is clicked
+document.getElementById('seeMoreBtn').onclick = function() {
+    handleSeeMoreButton();
+}
+
+function handleSeeMoreButton() {
+    let homeURL = "http://localhost:8080/chromeTimeTracker/website/home.php";
+    chrome.tabs.create({ url: homeURL });
+}

@@ -14,6 +14,11 @@ if (!empty($_POST)) {
 
             if ($insert->execute()) {
                 echo "success";
+                // $get = $db->prepare("INSERT * FROM users WHERE user_name = ?");
+                // $get->bind_param('s', $user_name);
+                // $result = $get->execute();
+                // $_SESSION['user'] = $result->fetch_object();
+                // $get->close();
                 header("Location: login_success.php");
             } else {
                 echo "fail";
@@ -38,7 +43,7 @@ if (!empty($_POST)) {
 <body>
     <h1>Simple Time Table</h1>
 
-    <h2>test</h2>
+    <h2>Sign Up</h2>
 
     <hr>
 

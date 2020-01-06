@@ -1,6 +1,7 @@
 <?php
 include "../db/connect.php";
 include "../security/security.php";
+include "../session/session_start.php";
 
 if (!empty($_POST)) {
     // echo "not empty";
@@ -19,6 +20,7 @@ if (!empty($_POST)) {
                     if ($row->password == $password) {
                         // if correct password
                         echo "success";
+                        $_SESSION['user'] = $row;
                         header("Location: login_success.php");
                         break;
                     } else {
@@ -45,11 +47,12 @@ if (!empty($_POST)) {
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="common_style.css">
-    <title>Sign Up</title>
+    <title>Log in</title>
 </head>
 
 <body>
     <h1>Simple Time Table</h1>
+    <h2>Log in</h2>
 
     <hr>
     <form action="login.php" method="POST">
