@@ -18,7 +18,7 @@ if (!empty($_POST)) {
                 $insert->close();
                 $get = $db->prepare("SELECT user_id, user_name, password, bio, created_date FROM users WHERE user_name = ? AND password = ?");
                 echo $db->error;
-                $get->bind_param('ss', $user_name,$password);
+                $get->bind_param('ss', $user_name, $password);
                 $get->execute();
                 $get->bind_result($user_id, $user_name, $password, $bio, $created_data);
                 $get->fetch();
@@ -61,19 +61,23 @@ if (!empty($_POST)) {
 
     <hr>
 
-    <form action="signup.php" method="POST">
-        <label for="userName">User Name: </label>
-        <input type="text" name="userName" id="userName">
-        <br>
-        <label for="passWord">Password: </label>
-        <input type="text" name="passWord" id="passWord">
-        <br>
-        <label for="bio">Bio (optional): </label>
-        <textarea name="bio" id="bio"></textarea>
-        <br>
-        <br>
-        <button type="submit" id="signUpBtn">Sign Up</button>
-    </form>
+    <div class="form-container">
+        <div class="signup-form" >
+            <form action="signup.php" method="POST">
+                <label for="userName">User Name: </label>
+                <input type="text" name="userName" id="userName">
+                <br>
+                <label for="passWord">Password: </label>
+                <input type="text" name="passWord" id="passWord">
+                <br>
+                <label for="bio">Bio (optional): </label>
+                <textarea name="bio" id="bio"></textarea>
+                <br>
+                <br>
+                <button type="submit" id="signUpBtn">Sign Up</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

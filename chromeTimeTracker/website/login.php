@@ -51,19 +51,25 @@ if (!empty($_POST)) {
 </head>
 
 <body>
-    <h1>Simple Time Table</h1>
-    <h2>Log in</h2>
+    <div class="page-heading">
+        <h1>Simple Time Table</h1>
+        <h2>Log in</h2>
+    </div>
 
     <hr>
-    <form action="login.php" method="POST">
-        <label for="userName">User Name: </label>
-        <input type="text" name="userName" id="userName">
-        <br>
-        <label for="passWord">Password: </label>
-        <input type="text" name="passWord" id="passWord">
-        <br>
-        <button type="submit" name="loginBtn">Log in</button>
-    </form>
+    <div class="form-container">
+        <div class="login-form">
+            <form action="login.php" method="POST">
+                <label for="userName">User Name: </label>
+                <input type="text" name="userName" id="userName">
+                <br>
+                <label for="passWord">Password: </label>
+                <input type="text" name="passWord" id="passWord">
+                <br>
+                <button type="submit" name="loginBtn">Log in</button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>
